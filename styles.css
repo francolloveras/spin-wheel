@@ -55,10 +55,20 @@ body {
   background-size: contain;
 }
 
-h1 {
+header {
+  text-align: center;
+}
+
+header h1 {
   margin-top: 1.5rem;
+  margin-block-end: 6px;
   font-size: 35px;
   color: white;
+}
+
+header p {
+  margin: 0;
+  color: var(--on-background-variant);
 }
 
 main {
