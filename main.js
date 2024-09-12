@@ -117,6 +117,11 @@ class Wheel {
 const wheel = new Wheel({ $list, $canvas, wheelRadius: 300 });
 wheel.draw();
 
+// Create initial options.
+Array.from({ length: 6 }).forEach((_, index) => {
+  wheel.addOption(`Option ${index + 1}`);
+});
+
 $canvas.addEventListener("click", () => {
   // Spin the wheel when the canvas is clicked.
   wheel.spin();
