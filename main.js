@@ -1,11 +1,15 @@
 const $canvas = document.querySelector("canvas");
 const $list = document.querySelector("ul");
 const $input = document.querySelector("input");
+const $dialog = document.querySelector("dialog");
+
+const jsConfetti = new JSConfetti();
 
 class Wheel {
-  constructor({ $list, $canvas, wheelRadius, initialSpinSpeed = 1 }) {
+  constructor({ $list, $canvas, $dialog, wheelRadius, initialSpinSpeed = 1 }) {
     this.$list = $list;
     this.$canvas = $canvas;
+    this.$dialog = $dialog;
     this.wheelRadius = wheelRadius;
     this.initialSpinSpeed = initialSpinSpeed;
     this.currentAngle = 0;
@@ -45,6 +49,8 @@ class Wheel {
   }
 
   deleteOption(element) {
+    console.log(element);
+
     this.$list.removeChild(element);
     this.draw();
   }
@@ -108,13 +114,60 @@ class Wheel {
 
   determineResult() {
     const winningIndex = Math.floor(
-      ((2 * Math.PI - (this.currentAngle % (2 * Math.PI))) / wheel.sliceAngle) % wheel.options.length
+      ((2 * Math.PI - (this.currentAngle % (2 * Math.PI))) / this.sliceAngle) % this.options.length
     );
-    alert(`Result: ${wheel.options[winningIndex]}`);
+    const winningOption = this.$list.children[winningIndex];
+
+    // Create the dialog content if don't have children.
+    if ($dialog.children.length === 0) {
+      const $header = document.createElement("header");
+      const $paragraph = document.createElement("p");
+      const $heading = document.createElement("h1");
+
+      $paragraph.textContent = "🥁 And the winner is...";
+
+      $header.appendChild($paragraph);
+      $header.appendChild($heading);
+
+      const $footer = document.createElement("footer");
+      const $deleteButton = document.createElement("button");
+      const $closeButton = document.createElement("button");
+
+      $deleteButton.classList.add("error");
+      $closeButton.classList.add("done");
+
+      $deleteButton.textContent = "Delete";
+      $closeButton.textContent = "Close";
+
+      $footer.appendChild($deleteButton);
+      $footer.appendChild($closeButton);
+
+      $closeButton.addEventListener("click", () => {
+        this.$dialog.close();
+      });
+
+      this.$dialog.appendChild($header);
+      this.$dialog.appendChild($footer);
+    }
+
+    const $deleteButton = $dialog.querySelector("button.error");
+    const deleteOption = () => {
+      this.deleteOption(winningOption);
+      this.$dialog.close();
+      $deleteButton.removeEventListener("click", deleteOption);
+    };
+    $deleteButton.addEventListener("click", deleteOption);
+
+    // Get the heading element and display the winning option.
+    const $heading = $dialog.querySelector("h1");
+    $heading.textContent = `${wheel.options[winningIndex].trim()}!`;
+
+    jsConfetti.addConfetti();
+    this.$dialog.showModal();
   }
 }
 
-const wheel = new Wheel({ $list, $canvas, wheelRadius: 300 });
+const wheel = new Wheel({ $list, $canvas, $dialog, wheelRadius: 300 });
 wheel.draw();
 
 // Create initial options.
