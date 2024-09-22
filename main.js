@@ -56,8 +56,9 @@ class Wheel {
   }
 
   draw() {
+    const context = $canvas.getContext("2d");
+
     for (let i = 0; i < this.options.length; i++) {
-      const context = $canvas.getContext("2d");
       const startAngle = this.currentAngle + i * this.sliceAngle;
       const endAngle = startAngle + this.sliceAngle;
 
@@ -68,19 +69,25 @@ class Wheel {
       context.closePath();
 
       // Alternate colors for the slices
-      context.fillStyle = i % 2 === 0 ? "#FFDD57" : "#FF8C42";
+      context.fillStyle = getColor(i);
       context.fill();
 
       // Draw the text
       context.save();
       context.translate(this.$canvas.width / 2, this.$canvas.height / 2);
       context.rotate((startAngle + endAngle) / 2);
-      context.textAlign = "center";
+      context.textAlign = "left";
       context.fillStyle = "#000";
-      context.font = "18px Arial";
+      context.font = "500 26px rubik";
       context.fillText(this.options[i], this.wheelRadius / 2, 10);
       context.restore();
     }
+
+    // Draw a small circle in the center of the wheel with a pointer.
+    context.beginPath();
+    context.arc(this.$canvas.width / 2, this.$canvas.height / 2, this.wheelRadius / 4, 0, 2 * Math.PI);
+    context.fillStyle = "#000";
+    context.fill();
   }
 
   spin() {
@@ -171,7 +178,7 @@ const wheel = new Wheel({ $list, $canvas, $dialog, wheelRadius: 300 });
 wheel.draw();
 
 // Create initial options.
-Array.from({ length: 6 }).forEach((_, index) => {
+Array.from({ length: 12 }).forEach((_, index) => {
   wheel.addOption(`Option ${index + 1}`);
 });
 
@@ -190,3 +197,22 @@ $input.addEventListener("keyup", (event) => {
     event.currentTarget.value = "";
   }
 });
+
+function getColor(sliceIndex) {
+  const colors = [
+    "#f87171",
+    "#fb923c",
+    "#fbbf24",
+    "#facc15",
+    "#4ade80",
+    "#34d399",
+    "#22d3ee",
+    "#60a5fa",
+    "#818cf8",
+    "#c084fc",
+    "#e879f9",
+    "#f472b6",
+  ];
+
+  return colors[sliceIndex % colors.length];
+}
