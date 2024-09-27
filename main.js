@@ -9,7 +9,7 @@ const $probability = document.querySelector("#probability");
 const jsConfetti = new JSConfetti();
 
 const wheelRadius = 350;
-const initialSpinSpeed = 1;
+const initialSpinSpeed = 0.3;
 
 let options = Array.from({ length: 12 }).map((_, index) => `Option ${index + 1}`);
 let sliceAngle = (2 * Math.PI) / options.length;
@@ -72,7 +72,7 @@ function spinWheel() {
 
   isSpinning = true;
   // Set an initial spin speed
-  spinSpeed = Math.random() * 0.1 + initialSpinSpeed;
+  spinSpeed = Math.random() * 0.9 + initialSpinSpeed;
 
   const spinLoop = () => {
     if (!isSpinning) return;
