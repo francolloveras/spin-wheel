@@ -21,7 +21,20 @@ let spinSpeed = 0;
 function drawWheel() {
   const context = $canvas.getContext("2d");
 
+  // Clear the canvas before drawing the wheel.
+  context.clearRect(0, 0, $canvas.width, $canvas.height);
+
+  // If the options length is 0, draw a white wheel.
+  if (options.length === 0) {
+    context.beginPath();
+    context.arc($canvas.width / 2, $canvas.height / 2, wheelRadius, 0, 2 * Math.PI);
+    context.fillStyle = "#fff";
+    context.fill();
+  }
+
   for (let i = 0; i < options.length; i++) {
+    if (options.length === 0) return;
+
     const startAngle = currentAngle + i * sliceAngle;
     const endAngle = startAngle + sliceAngle;
 
@@ -55,7 +68,7 @@ function drawWheel() {
 
 function spinWheel() {
   // Prevent restarting the spin if already spinning
-  if (isSpinning) return;
+  if (isSpinning || options.length === 0) return;
 
   isSpinning = true;
   // Set an initial spin speed
@@ -94,6 +107,15 @@ function determineResult() {
 
 function updateOptions() {
   options = $textarea.value.split("\n").filter((option) => option.trim() !== "");
+
+  if (options.length === 0) {
+    $canvas.style.cursor = "not-allowed";
+    $canvas.title = "Please add at least one option";
+  } else {
+    $canvas.style.cursor = "pointer";
+    $canvas.title = "";
+  }
+
   sliceAngle = (2 * Math.PI) / options.length;
   drawWheel();
 }
