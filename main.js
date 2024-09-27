@@ -2,7 +2,7 @@ const $canvas = document.querySelector("canvas");
 const $textarea = document.querySelector("textarea");
 const $dialog = document.querySelector("dialog");
 const $winningText = document.querySelector("#winning-text");
-const $deleteButton = document.querySelector("#delete");
+const $removeButton = document.querySelector("#remove");
 const $closeButton = document.querySelector("#close");
 const $probability = document.querySelector("#probability");
 
@@ -96,6 +96,8 @@ function spinWheel() {
 }
 
 function standByAnimation() {
+  return;
+
   const standByAnimationLoop = () => {
     // If the wheel is spinning, cancel the stand by animation loop.
     if (isSpinning) {
@@ -121,6 +123,12 @@ function determineResult() {
   $winningText.textContent = options[winningIndex];
   $probability.textContent = `${(100 / options.length).toFixed(2)}%`;
 
+  $removeButton.addEventListener("click", () => {
+    removeOption(winningIndex);
+    standByAnimation();
+    $dialog.close();
+  });
+
   $dialog.showModal();
 }
 
@@ -137,6 +145,14 @@ function updateOptions() {
 
   sliceAngle = (2 * Math.PI) / options.length;
   drawWheel();
+}
+
+function removeOption(index) {
+  $textarea.value = $textarea.value
+    .split("\n")
+    .filter((_, i) => i !== index)
+    .join("\n");
+  updateOptions();
 }
 
 drawWheel();

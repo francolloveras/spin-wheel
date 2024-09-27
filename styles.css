@@ -199,7 +199,7 @@ dialog button#close {
   background-color: var(--done);
 }
 
-dialog button#delete {
+dialog button#remove {
   color: var(--on-error);
   background-color: var(--error);
 }
