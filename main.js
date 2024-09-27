@@ -61,7 +61,7 @@ function drawWheel() {
 
   // Draw a small circle in the center of the wheel with a pointer.
   context.beginPath();
-  context.arc($canvas.width / 2, $canvas.height / 2, wheelRadius / 4, 0, 2 * Math.PI);
+  context.arc($canvas.width / 2, $canvas.height / 2, wheelRadius / 5, 0, 2 * Math.PI);
   context.fillStyle = "#000";
   context.fill();
 }
