@@ -12,27 +12,38 @@
       <p>Click on the wheel to spin it.</p>
     </header>
     <main>
-      <div>
-        <canvas width="700" height="700"></canvas>
-      </div>
+      <canvas width="700" height="700"></canvas>
       <aside>
-        <ul></ul>
         <label for="input">
-          <input type="text" id="input" placeholder="Type something..." autofocus />
+          <textarea type="text" id="input" placeholder="Type something..." autofocus></textarea>
           <span>
             Press
             <kbd>Enter</kbd>
-            to submit
+            to add an option
           </span>
         </label>
       </aside>
-      <dialog></dialog>
     </main>
     <footer>
       Created by
       <a href="https://github.com/francolloveras" target="_blank" rel="noopener noreferrer">Franco Lloveras</a>
       with ❤️
     </footer>
+    <dialog>
+      <header>
+        <p tabindex="1">🎉 We have a winner!</p>
+        <h1 id="winning-text"></h1>
+        <p>
+          There was a
+          <span id="probability"></span>
+          chance of winning.
+        </p>
+      </header>
+      <footer>
+        <button id="delete">Delete</button>
+        <button id="close">Close</button>
+      </footer>
+    </dialog>
   </body>
   <script type="module" src="/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
