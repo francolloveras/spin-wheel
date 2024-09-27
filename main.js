@@ -93,7 +93,7 @@ function determineResult() {
 }
 
 function updateOptions() {
-  options = $textarea.value.split("\n");
+  options = $textarea.value.split("\n").filter((option) => option.trim() !== "");
   sliceAngle = (2 * Math.PI) / options.length;
   drawWheel();
 }
