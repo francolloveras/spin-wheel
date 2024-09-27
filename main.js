@@ -95,6 +95,25 @@ function spinWheel() {
   spinLoop();
 }
 
+function standByAnimation() {
+  const standByAnimationLoop = () => {
+    // If the wheel is spinning, cancel the stand by animation loop.
+    if (isSpinning) {
+      cancelAnimationFrame(standByAnimationLoop);
+      return;
+    }
+
+    currentAngle += 0.005;
+    drawWheel();
+    requestAnimationFrame(standByAnimationLoop);
+  };
+
+  // Start the stand by animation loop if the wheel is not spinning.
+  if (!isSpinning) {
+    standByAnimationLoop();
+  }
+}
+
 function determineResult() {
   const winningIndex = Math.floor(((2 * Math.PI - (currentAngle % (2 * Math.PI))) / sliceAngle) % options.length);
 
@@ -121,6 +140,7 @@ function updateOptions() {
 }
 
 drawWheel();
+standByAnimation();
 
 $canvas.addEventListener("click", () => {
   // Spin the wheel when the canvas is clicked.
@@ -137,6 +157,7 @@ $textarea.addEventListener("keyup", (event) => {
 
 $closeButton.addEventListener("click", () => {
   $dialog.close();
+  standByAnimation();
 });
 
 function getColor(sliceIndex) {
