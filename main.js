@@ -96,8 +96,6 @@ function spinWheel() {
 }
 
 function standByAnimation() {
-  return;
-
   const standByAnimationLoop = () => {
     // If the wheel is spinning, cancel the stand by animation loop.
     if (isSpinning) {
