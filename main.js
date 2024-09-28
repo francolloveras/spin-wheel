@@ -25,11 +25,12 @@ function drawWheel() {
   context.clearRect(0, 0, $canvas.width, $canvas.height);
 
   const centerX = $canvas.width / 2;
+  const centerY = $canvas.height / 2;
 
   // If the options length is 0, draw a white wheel.
   if (options.length === 0) {
     context.beginPath();
-    context.arc(centerX, $canvas.height / 2, wheelRadius, 0, 2 * Math.PI);
+    context.arc(centerX, centerY, wheelRadius, 0, 2 * Math.PI);
     context.fillStyle = "#fff";
     context.fill();
   }
@@ -42,8 +43,8 @@ function drawWheel() {
 
     // Draw the slice
     context.beginPath();
-    context.moveTo(centerX, $canvas.height / 2);
-    context.arc(centerX, $canvas.height / 2, wheelRadius, startAngle, endAngle);
+    context.moveTo(centerX, centerY);
+    context.arc(centerX, centerY, wheelRadius, startAngle, endAngle);
     context.closePath();
 
     // Alternate colors for the slices
@@ -52,7 +53,7 @@ function drawWheel() {
 
     // Draw the text
     context.save();
-    context.translate(centerX, $canvas.height / 2);
+    context.translate(centerX, centerY);
     context.rotate((startAngle + endAngle) / 2);
     context.textAlign = "left";
     context.fillStyle = "#0a0a0a";
@@ -63,13 +64,20 @@ function drawWheel() {
 
   // Draw a small circle in the center of the wheel with a pointer.
   context.beginPath();
-  context.arc(centerX, $canvas.height / 2, wheelRadius / 5, 0, 2 * Math.PI);
+  context.arc(centerX, centerY, wheelRadius / 5, 0, 2 * Math.PI);
   context.fillStyle = "#0a0a0a";
+  context.fill();
+
+  // Draw the wheel border
+  context.beginPath();
+  context.arc(centerX, centerY, wheelRadius, 0, 2 * Math.PI, false);
+  context.arc(centerX, centerY, wheelRadius - 15, 0, 2 * Math.PI, true);
+  context.fillStyle = "rgba(0, 0, 0, 0.1)";
   context.fill();
 
   // Draw the arrow pointer
   const arrowSize = 50;
-  const topY = $canvas.height / 2 - wheelRadius - 20;
+  const topY = centerY - wheelRadius - 20;
 
   context.beginPath();
   context.moveTo(centerX - arrowSize, topY);
