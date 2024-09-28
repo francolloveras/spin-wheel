@@ -148,7 +148,7 @@ function determineResult() {
     removeOption(winningIndex);
     setTimeout(() => {
       standByAnimation();
-    }, 1000);
+    }, 3000);
     $dialog.close();
   });
 
@@ -198,7 +198,7 @@ $closeButton.addEventListener("click", () => {
   $dialog.close();
   setTimeout(() => {
     standByAnimation();
-  }, 1000);
+  }, 3000);
 });
 
 function getColor(sliceIndex) {
