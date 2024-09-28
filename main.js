@@ -24,10 +24,12 @@ function drawWheel() {
   // Clear the canvas before drawing the wheel.
   context.clearRect(0, 0, $canvas.width, $canvas.height);
 
+  const centerX = $canvas.width / 2;
+
   // If the options length is 0, draw a white wheel.
   if (options.length === 0) {
     context.beginPath();
-    context.arc($canvas.width / 2, $canvas.height / 2, wheelRadius, 0, 2 * Math.PI);
+    context.arc(centerX, $canvas.height / 2, wheelRadius, 0, 2 * Math.PI);
     context.fillStyle = "#fff";
     context.fill();
   }
@@ -40,8 +42,8 @@ function drawWheel() {
 
     // Draw the slice
     context.beginPath();
-    context.moveTo($canvas.width / 2, $canvas.height / 2);
-    context.arc($canvas.width / 2, $canvas.height / 2, wheelRadius, startAngle, endAngle);
+    context.moveTo(centerX, $canvas.height / 2);
+    context.arc(centerX, $canvas.height / 2, wheelRadius, startAngle, endAngle);
     context.closePath();
 
     // Alternate colors for the slices
@@ -50,10 +52,10 @@ function drawWheel() {
 
     // Draw the text
     context.save();
-    context.translate($canvas.width / 2, $canvas.height / 2);
+    context.translate(centerX, $canvas.height / 2);
     context.rotate((startAngle + endAngle) / 2);
     context.textAlign = "left";
-    context.fillStyle = "#000";
+    context.fillStyle = "#0a0a0a";
     context.font = "500 26px rubik";
     context.fillText(options[i], wheelRadius / 2, 10);
     context.restore();
@@ -61,8 +63,20 @@ function drawWheel() {
 
   // Draw a small circle in the center of the wheel with a pointer.
   context.beginPath();
-  context.arc($canvas.width / 2, $canvas.height / 2, wheelRadius / 5, 0, 2 * Math.PI);
-  context.fillStyle = "#000";
+  context.arc(centerX, $canvas.height / 2, wheelRadius / 5, 0, 2 * Math.PI);
+  context.fillStyle = "#0a0a0a";
+  context.fill();
+
+  // Draw the arrow pointer
+  const arrowSize = 50;
+  const topY = $canvas.height / 2 - wheelRadius - 20;
+
+  context.beginPath();
+  context.moveTo(centerX - arrowSize, topY);
+  context.lineTo(centerX + arrowSize, topY);
+  context.lineTo(centerX, topY + arrowSize);
+  context.closePath();
+  context.fillStyle = "#0a0a0a";
   context.fill();
 }
 
@@ -115,7 +129,8 @@ function standByAnimation() {
 }
 
 function determineResult() {
-  const winningIndex = Math.floor(((2 * Math.PI - (currentAngle % (2 * Math.PI))) / sliceAngle) % options.length);
+  const adjustedAngle = (currentAngle + Math.PI / 2) % (2 * Math.PI);
+  const winningIndex = Math.floor(((2 * Math.PI - adjustedAngle) / sliceAngle) % options.length);
 
   jsConfetti.addConfetti();
   $winningText.textContent = options[winningIndex];
