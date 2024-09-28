@@ -128,7 +128,8 @@ kbd {
 
 footer {
   color: var(--on-background-variant);
-  margin: 0.5rem auto;
+  margin-top: 4rem;
+  margin-bottom: 1rem;
 }
 
 dialog {
