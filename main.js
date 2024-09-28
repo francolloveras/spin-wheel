@@ -138,7 +138,9 @@ function determineResult() {
 
   $removeButton.addEventListener("click", () => {
     removeOption(winningIndex);
-    standByAnimation();
+    setTimeout(() => {
+      standByAnimation();
+    }, 1000);
     $dialog.close();
   });
 
@@ -186,7 +188,9 @@ $textarea.addEventListener("keyup", (event) => {
 
 $closeButton.addEventListener("click", () => {
   $dialog.close();
-  standByAnimation();
+  setTimeout(() => {
+    standByAnimation();
+  }, 1000);
 });
 
 function getColor(sliceIndex) {
