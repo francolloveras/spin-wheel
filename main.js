@@ -62,12 +62,6 @@ function drawWheel() {
     context.restore();
   }
 
-  // Draw a small circle in the center of the wheel with a pointer.
-  context.beginPath();
-  context.arc(centerX, centerY, wheelRadius / 5, 0, 2 * Math.PI);
-  context.fillStyle = "#0a0a0a";
-  context.fill();
-
   // Draw the wheel border
   context.beginPath();
   context.arc(centerX, centerY, wheelRadius, 0, 2 * Math.PI, false);
@@ -76,14 +70,20 @@ function drawWheel() {
   context.fill();
 
   // Draw the arrow pointer
-  const arrowSize = 50;
-  const topY = centerY - wheelRadius - 20;
+  const arrowSize = 25;
+  const middleY = centerY - arrowSize * 2;
 
   context.beginPath();
-  context.moveTo(centerX - arrowSize, topY);
-  context.lineTo(centerX + arrowSize, topY);
-  context.lineTo(centerX, topY + arrowSize);
+  context.moveTo(centerX - arrowSize, middleY);
+  context.lineTo(centerX + arrowSize, middleY);
+  context.lineTo(centerX, middleY - arrowSize);
   context.closePath();
+  context.fillStyle = "#0a0a0a";
+  context.fill();
+
+  // Draw a small circle in the center of the wheel with a pointer.
+  context.beginPath();
+  context.arc(centerX, centerY, wheelRadius / 6, 0, 2 * Math.PI);
   context.fillStyle = "#0a0a0a";
   context.fill();
 }
