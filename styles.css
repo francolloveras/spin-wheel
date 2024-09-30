@@ -4,6 +4,7 @@
 }
 
 * {
+  scrollbar-gutter: stable;
   box-sizing: border-box;
   --background: #0a0a0a;
   --on-background: #e5e5e5;
@@ -29,10 +30,6 @@
   border: 8px solid rgba(0, 0, 0, 0);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary);
-}
-
 :focus {
   outline: color-mix(in srgb, var(#fff, #fff) 5%, transparent);
   outline-width: 2px;
@@ -41,6 +38,7 @@
 
 body {
   margin: 0;
+  overflow: auto;
   color-scheme: dark;
   font-family: "rubik", Georgia, "Times New Roman", Times, serif;
   background-color: var(--background);
