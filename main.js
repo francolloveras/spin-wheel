@@ -146,10 +146,7 @@ function determineResult() {
 
   $removeButton.addEventListener("click", () => {
     removeOption(winningIndex);
-    setTimeout(() => {
-      standByAnimation();
-    }, 3000);
-    $dialog.close();
+    closeDialog();
   });
 
   $dialog.showModal();
@@ -195,10 +192,7 @@ $textarea.addEventListener("keyup", (event) => {
 });
 
 $closeButton.addEventListener("click", () => {
-  $dialog.close();
-  setTimeout(() => {
-    standByAnimation();
-  }, 3000);
+  closeDialog();
 });
 
 function getColor(sliceIndex) {
@@ -218,4 +212,11 @@ function getColor(sliceIndex) {
   ];
 
   return colors[sliceIndex % colors.length];
+}
+
+function closeDialog() {
+  $dialog.close();
+  setTimeout(() => {
+    standByAnimation();
+  }, 3000);
 }
