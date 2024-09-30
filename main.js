@@ -11,12 +11,16 @@ const jsConfetti = new JSConfetti();
 const wheelRadius = 350;
 const initialSpinSpeed = 0.3;
 
+const ticSound = new Audio("./tic-sound.wav");
+const winningSound = new Audio("./win-sound.wav");
+
 let options = Array.from({ length: 12 }).map((_, index) => `Option ${index + 1}`);
 let sliceAngle = (2 * Math.PI) / options.length;
 
 let isSpinning = false;
 let currentAngle = 0;
 let spinSpeed = 0;
+let lastSlicePassed = null;
 
 function drawWheel() {
   const context = $canvas.getContext("2d");
@@ -103,6 +107,17 @@ function spinWheel() {
     // Slow down gradually
     spinSpeed *= 0.99;
 
+    // Calculate the current slice under the arrow
+    const arrowAngle = Math.PI;
+    const adjustedAngle = (currentAngle + arrowAngle) % (2 * Math.PI);
+    const currentSlice = Math.floor(((2 * Math.PI - adjustedAngle) / sliceAngle) % options.length);
+
+    // Play sound when a new slice passes the arrow
+    if (currentSlice !== lastSlicePassed) {
+      ticSound.play();
+      lastSlicePassed = currentSlice;
+    }
+
     // Stop the wheel if speed is very low
     if (spinSpeed < 0.001) {
       isSpinning = false;
@@ -149,6 +164,7 @@ function determineResult() {
     closeDialog();
   });
 
+  winningSound.play();
   $dialog.showModal();
 }
 
