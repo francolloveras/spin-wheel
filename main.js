@@ -45,17 +45,17 @@ function drawWheel() {
     const startAngle = currentAngle + i * sliceAngle;
     const endAngle = startAngle + sliceAngle;
 
-    // Draw the slice
+    // Draw the slice.
     context.beginPath();
     context.moveTo(centerX, centerY);
     context.arc(centerX, centerY, wheelRadius, startAngle, endAngle);
     context.closePath();
 
-    // Alternate colors for the slices
+    // Alternate colors for the slices.
     context.fillStyle = getColor(i);
     context.fill();
 
-    // Draw the text
+    // Draw the text.
     context.save();
     context.translate(centerX, centerY);
     context.rotate((startAngle + endAngle) / 2);
@@ -66,14 +66,14 @@ function drawWheel() {
     context.restore();
   }
 
-  // Draw the wheel border
+  // Draw the wheel border.
   context.beginPath();
   context.arc(centerX, centerY, wheelRadius, 0, 2 * Math.PI, false);
   context.arc(centerX, centerY, wheelRadius - 15, 0, 2 * Math.PI, true);
   context.fillStyle = "rgba(0, 0, 0, 0.1)";
   context.fill();
 
-  // Draw the arrow pointer
+  // Draw the arrow pointer.
   const arrowSize = 25;
   const middleY = centerY - arrowSize * 2;
 
@@ -93,32 +93,32 @@ function drawWheel() {
 }
 
 function spinWheel() {
-  // Prevent restarting the spin if already spinning
+  // Prevent restarting the spin if already spinning.
   if (isSpinning || options.length === 0) return;
 
   isSpinning = true;
-  // Set an initial spin speed
+  // Set an initial spin speed.
   spinSpeed = Math.random() * 0.9 + initialSpinSpeed;
 
   const spinLoop = () => {
     if (!isSpinning) return;
 
     currentAngle += spinSpeed;
-    // Slow down gradually
+    // Slow down gradually.
     spinSpeed *= 0.99;
 
-    // Calculate the current slice under the arrow
+    // Calculate the current slice under the arrow.
     const arrowAngle = Math.PI;
     const adjustedAngle = (currentAngle + arrowAngle) % (2 * Math.PI);
     const currentSlice = Math.floor(((2 * Math.PI - adjustedAngle) / sliceAngle) % options.length);
 
-    // Play sound when a new slice passes the arrow
+    // Play sound when a new slice passes the arrow.
     if (currentSlice !== lastSlicePassed) {
       ticSound.play();
       lastSlicePassed = currentSlice;
     }
 
-    // Stop the wheel if speed is very low
+    // Stop the wheel if speed is very low.
     if (spinSpeed < 0.001) {
       isSpinning = false;
       determineResult();
@@ -128,7 +128,7 @@ function spinWheel() {
     requestAnimationFrame(spinLoop);
   };
 
-  // Start the spin loop
+  // Start the spin loop.
   spinLoop();
 }
 
